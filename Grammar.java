@@ -75,7 +75,7 @@ public class Grammar
         if(availableTerminals.contains(t))
         {
             alphabet.add(t);
-            availableTerminals.remove(t);
+            availableTerminals.remove( (Character)t );
         }//end if
 
     }//end addTerminal
@@ -107,7 +107,7 @@ public class Grammar
         if(availableNonterminals.contains(nt))
         {
             nonterminals.add(nt);
-            availableNonterminals.remove(nt);
+            availableNonterminals.remove( (Character)nt );
         }
 
     }//end addNonterminal
