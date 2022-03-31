@@ -139,6 +139,32 @@ public class Grammar
         return true;
     }
 
+    public boolean isChomskyProd(Production p)
+    {
+        //first type: A -> a
+        if(p.body.length == 1 && alphabet.contains(p.body[0]))
+            return true;
+        //second type: A -> BC
+        else if(p.body.length == 2 && nonterminals.contains(p.body[0]) && p.body[0] != axiom &&
+                nonterminals.contains(p.body[1]) && p.body[1] != axiom)
+            return true;
+        //third type: axiom -> e
+        else if(p.body.length == 0 && p.head == axiom)
+            return true;
+        else
+            return false;
+    }
+
+    /*
+    public boolean isChomskyForm()
+    {
+        for(Production p : prod)
+        {
+
+        }
+    }
+    */
+
 
     /*
         CYK algorithm
