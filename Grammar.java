@@ -13,10 +13,10 @@ public class Grammar
         private char head;
         private char[] body;
 
-        Production(char head, char[] body)
+        Production(char head, String body)
         {
             this.head = head;
-            this.body = body;
+            this.body = body.toCharArray();
         }
 
         public char getTesta()
@@ -39,8 +39,16 @@ public class Grammar
         }
 
         @Override
-        public String toString() {
-            return head + "->" + String.valueOf(body);
+        public String toString()
+        {
+            String bodyString;
+
+            if(body.length == 0)
+                bodyString = "_";
+            else
+                bodyString = String.valueOf(body);
+
+            return head + "->" + bodyString;
         }
     }
 
@@ -160,7 +168,7 @@ public class Grammar
                 return;
         }
 
-        Production newProd = new Production(head, body.toCharArray());
+        Production newProd = new Production(head, body);
         this.prod.add(newProd);
     }
 
