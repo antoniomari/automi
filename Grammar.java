@@ -66,12 +66,24 @@ public class Grammar
                 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'));
     }
 
+    /**
+     *
+     * @param t terminale da aggiungere
+     */
     public void addTerminal(char t)
     {
-        if(!alphabet.contains(t) && !nonterminals.contains(t))
+        if(availableTerminals.contains(t))
+        {
             alphabet.add(t);
+            availableTerminals.remove(t);
+        }//end if
+
     }//end addTerminal
 
+    /**
+     *
+     * @param tArray array di terminali da aggiungere
+     */
     public void addTerminal(char[] tArray)
     {
         for(char t : tArray)
@@ -86,12 +98,24 @@ public class Grammar
         System.out.println();
     }//end printAlphabet
 
+    /**
+     *
+     * @param nt non terminale da aggiungere
+     */
     public void addNonterminal(char nt)
     {
-        if(!alphabet.contains(nt) && !nonterminals.contains(nt))
+        if(availableNonterminals.contains(nt))
+        {
             nonterminals.add(nt);
+            availableNonterminals.remove(nt);
+        }
+
     }//end addNonterminal
 
+    /**
+     *
+     * @param ntArray array di non terminali da aggiungere
+     */
     public void addNonterminal(char[] ntArray)
     {
         for(char nt : ntArray)
