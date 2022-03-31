@@ -1,3 +1,4 @@
+import com.sun.scenario.effect.impl.prism.PrDrawable;
 import sun.awt.image.ImageWatched;
 
 import java.util.Arrays;
@@ -171,6 +172,38 @@ public class Grammar
         return true;
     }
 
+    private void replaceEmptyProduction(char nt, Production p)
+    {
+
+        LinkedList<Integer> indexes =
+    }
+
+
+    public Grammar toChomskyForm()
+    {
+        // for now, I assume that there are no prod whose body contains the axiom
+        //step 1: to do
+
+        //step 2: delete e-prod
+        for(Production p : prod)
+        {
+            if(p.body.length == 0)
+            {
+                char head = p.head;
+                for(Production p1 : prod)
+                {
+                    if(Arrays.asList(p1.body).contains(p1))
+                    {
+                        replaceEmptyProduction(head, p1);
+                    }
+                }
+            }
+        }
+
+        //step 3: delete unary prod
+
+        //step 4: the remaining prod
+    }
 
     /*
         CYK algorithm
