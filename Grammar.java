@@ -24,7 +24,7 @@ public class Grammar
             return head;
         }
 
-        public char[] getCorpo() {
+        public char[] getBody() {
             return body;
         }
 
@@ -33,9 +33,19 @@ public class Grammar
             this.head = testa;
         }
 
-        public void setCorpo(String corpo)
+        public void setBody(String body)
         {
-            this.body = corpo.toCharArray();
+            this.body = body.toCharArray();
+        }
+
+        public static LinkedList<Production> select(LinkedList<Production> prods, char head)
+        {
+            LinkedList<Production> selected = new LinkedList<Production>();
+            for(Production p : prods)
+                if(p.head == head)
+                    selected.add(p);
+
+            return selected;
         }
 
         @Override
@@ -194,6 +204,10 @@ public class Grammar
     public LinkedList<Production> getProductions()
     {
         return prod;
+    }
+    public char getAxiom()
+    {
+        return axiom;
     }
 
     @Override
