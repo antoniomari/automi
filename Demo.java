@@ -15,6 +15,12 @@ public class Demo {
 
         gram.addProduction('S', new String[] {"aSa", "bSb", "aa", "bb"});
 
+        for(Grammar.Production p : gram.getProductions())
+        {
+            String result = gram.isChomskyProd(p)? " is" : " is not";
+            System.out.println(p + result +" in Chomsky Form");
+        }
+
 
         gram.printAlphabet();
 

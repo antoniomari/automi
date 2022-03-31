@@ -1,3 +1,5 @@
+import sun.awt.image.ImageWatched;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -119,6 +121,11 @@ public class Grammar
             return;
 
         this.axiom = axiom;
+    }
+
+    public LinkedList<Production> getProductions()
+    {
+        return prod;
     }
 
     @Override
