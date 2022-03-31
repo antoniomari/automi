@@ -129,6 +129,11 @@ public class Grammar
         System.out.println();
     }//end printAlphabet
 
+    public boolean isTerminal(char c)
+    {
+        return alphabet.contains(c);
+    }
+
     /**
      *
      * @param nt non terminale da aggiungere
@@ -160,6 +165,11 @@ public class Grammar
 
         System.out.println();
     }//end printNonterminals
+
+    public boolean isNonterminal(char c)
+    {
+        return nonterminals.contains(c);
+    }
 
     public void addProduction(char head, String body)
     {

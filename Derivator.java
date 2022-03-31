@@ -37,17 +37,43 @@ public class Derivator
 
     public void randomMove()
     {
-        int index = ntIndexes.get(random.nextInt(ntIndexes.size()));
+        //choice random nonterminal
+        int i = random.nextInt(ntIndexes.size());
+        int index = ntIndexes.get(i);
         char head = strBuffer.charAt(index);
 
+        //choice random production to apply
         LinkedList<Grammar.Production> availableProds = Grammar.Production.select(gram.getProductions(), head);
         Grammar.Production choice = availableProds.get(random.nextInt(availableProds.size()));
 
-        //
-        strBuffer.deleteCharAt(index);
+        //edit strBuffer
+        strBuffer.deleteCharAt(i);
         strBuffer.insert(index, choice.getBody());
-        System.out.println();
+
+        //calculate new indexes
+        ntIndexes = new LinkedList<>();
+        numOfNt = 0;
+
+        String updatedStr = strBuffer.toString();
+        for(int j = 0; j < updatedStr.length(); j++)
+            if(gram.isNonterminal(updatedStr.charAt(j)))
+            {
+                numOfNt++;
+                ntIndexes.add(j);
+            }
     }
 
+    public String randomDerivation()
+    {
+        System.out.println(strBuffer);
+
+        while(numOfNt > 0)
+        {
+            randomMove();
+            System.out.println(strBuffer);
+        }
+
+        return strBuffer.toString();
+    }
 
 }
