@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.LinkedList;
 
 public class Grammar
@@ -31,6 +32,11 @@ public class Grammar
         public void setCorpo(char[] corpo)
         {
             this.body = corpo;
+        }
+
+        @Override
+        public String toString() {
+            return head + "->" + String.valueOf(body);
         }
     }
 
