@@ -38,20 +38,13 @@ public class Grammar
     private LinkedList<Character> alphabet;
     private LinkedList<Character> nonterminals;
     private LinkedList<Production> prod;
-    /*
-    public void addProduction(char A, char[] b)
-    {
-        prod = new Produzione[prod.length + 1];
-        prod[prod.length - 1] = new Produzione(A, b);
-    }
-    */
 
     // CONSTRUCTOR
     Grammar()
     {
-        alphabet = new LinkedList<Character>();
-        nonterminals = new LinkedList<Character>();
-        prod = new LinkedList<Production>();
+        alphabet = new LinkedList<>();
+        nonterminals = new LinkedList<>();
+        prod = new LinkedList<>();
     }
 
     public void addTerminal(char t)
@@ -63,10 +56,7 @@ public class Grammar
     public void addTerminal(char[] tArray)
     {
         for(char t : tArray)
-        {
-            if(!alphabet.contains(t) && !nonterminals.contains(t))
-                alphabet.add(t);
-        }//end for
+            addTerminal(t);
     }//end addTerminal
 
     public void printAlphabet()
@@ -86,10 +76,7 @@ public class Grammar
     public void addNonterminal(char[] ntArray)
     {
         for(char nt : ntArray)
-        {
-            if(!alphabet.contains(nt) && !nonterminals.contains(nt))
-                nonterminals.add(nt);
-        }//end for
+            addNonterminal(nt);
     }//end addNonterminal
 
     public void printNonterminals()
@@ -112,5 +99,29 @@ public class Grammar
 
         Production newProd = new Production(head, body.toCharArray());
         this.prod.add(newProd);
+    }
+
+    public void addProduction(char head, String[] bodies)
+    {
+        for(String body : bodies)
+            addProduction(head, body);
+    }
+
+    public void setAxiom(char axiom)
+    {
+        if(!nonterminals.contains(axiom) || alphabet.contains(axiom))
+            return;
+
+        this.axiom = axiom;
+    }
+
+    @Override
+    public String toString() {
+        return "Grammar{" +
+                "axiom=" + axiom +
+                ", alphabet=" + alphabet +
+                ", nonterminals=" + nonterminals +
+                ", prod=" + prod +
+                '}';
     }
 }
