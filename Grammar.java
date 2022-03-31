@@ -7,6 +7,7 @@ import java.util.LinkedList;
 public class Grammar
 {
 
+
     public static class Production
     {
         private char head;
@@ -48,12 +49,21 @@ public class Grammar
     private LinkedList<Character> nonterminals;
     private LinkedList<Production> prod;
 
+    private LinkedList<Character> availableTerminals;
+    private LinkedList<Character> availableNonterminals;
+
     // CONSTRUCTOR
     Grammar()
     {
         alphabet = new LinkedList<>();
         nonterminals = new LinkedList<>();
         prod = new LinkedList<>();
+
+        availableTerminals = new LinkedList<>(Arrays.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+                'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'));
+
+        availableNonterminals = new LinkedList<>(Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+                'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'));
     }
 
     public void addTerminal(char t)
@@ -172,13 +182,16 @@ public class Grammar
         return true;
     }
 
+    /*
     private void replaceEmptyProduction(char nt, Production p)
     {
 
         LinkedList<Integer> indexes =
     }
 
+    */
 
+    /*
     public Grammar toChomskyForm()
     {
         // for now, I assume that there are no prod whose body contains the axiom
@@ -204,7 +217,7 @@ public class Grammar
 
         //step 4: the remaining prod
     }
-
+    */
     /*
         CYK algorithm
     public boolean CYK(String str)
