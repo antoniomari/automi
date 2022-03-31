@@ -21,6 +21,9 @@ public class Demo {
             System.out.println(p + result +" in Chomsky Form");
         }
 
+        String result = gram.isChomskyForm()? " is" : " is not";
+        System.out.println("Grammar" + result + " in Chomsky Form");
+
 
         gram.printAlphabet();
 

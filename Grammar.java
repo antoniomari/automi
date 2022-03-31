@@ -162,15 +162,14 @@ public class Grammar
             return false;
     }
 
-    /*
     public boolean isChomskyForm()
     {
         for(Production p : prod)
-        {
+            if(!isChomskyProd(p))
+                return false;
 
-        }
+        return true;
     }
-    */
 
 
     /*
