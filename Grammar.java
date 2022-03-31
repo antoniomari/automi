@@ -130,4 +130,28 @@ public class Grammar
                 ", prod=" + prod +
                 '}';
     }
+
+    private boolean alphabetCheck(String str)
+    {
+        for(char c : str.toCharArray())
+            if(!alphabet.contains(c))
+                return false;
+        return true;
+    }
+
+
+    /*
+        CYK algorithm
+    public boolean CYK(String str)
+    {
+        if(!alphabetCheck(str))
+            return false;
+
+        int len = str.length();
+        Object[][] matrixCYK = new Object[len][len];
+
+
+    }
+
+    */
 }
