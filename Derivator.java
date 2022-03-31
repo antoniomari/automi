@@ -13,12 +13,13 @@ public class Derivator
 
     Derivator(Grammar gram)
     {
+        this();
+
         this.gram = gram;
-        this.strBuffer = new StringBuilder( (Character) gram.getAxiom());
+        this.strBuffer = new StringBuilder( ((Character) gram.getAxiom()).toString());
         this.numOfNt = 1;
         this.ntIndexes = new LinkedList<Integer>();
         ntIndexes.add(0);
-
     }
 
     Derivator()
@@ -37,7 +38,7 @@ public class Derivator
 
     public void randomMove()
     {
-        //choice random nonterminal
+        //choose random nonterminal
         int i = random.nextInt(ntIndexes.size());
         int index = ntIndexes.get(i);
         char head = strBuffer.charAt(index);
@@ -47,7 +48,7 @@ public class Derivator
         Grammar.Production choice = availableProds.get(random.nextInt(availableProds.size()));
 
         //edit strBuffer
-        strBuffer.deleteCharAt(i);
+        strBuffer.deleteCharAt(index);
         strBuffer.insert(index, choice.getBody());
 
         //calculate new indexes

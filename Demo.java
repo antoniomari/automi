@@ -53,6 +53,10 @@ public class Demo {
         }
 
         System.out.println(gram2);
+
+        Derivator der = new Derivator(gram2);
+
+        String result = der.randomDerivation();
     }
 
 
