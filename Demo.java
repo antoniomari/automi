@@ -28,6 +28,21 @@ public class Demo {
         gram.printAlphabet();
 
         System.out.println(gram);
+
+        //creazione grammatica esempio libro
+        char[] terminals = {'a', 'b'};
+        char[] nonterminals = {'A', 'B', 'S'};
+        char axiom = 'S';
+        Grammar.Production[] prods = new Grammar.Production[6];
+        prods[0].setTesta('S');
+        prods[0].setCorpo("ASA");
+
+        prods[1].setTesta('S');
+        prods[1].setCorpo("aB");
+
+        prods
+
+        Grammar gram2 = new Grammar();
     }
 
 

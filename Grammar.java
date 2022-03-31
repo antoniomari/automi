@@ -33,9 +33,9 @@ public class Grammar
             this.head = testa;
         }
 
-        public void setCorpo(char[] corpo)
+        public void setCorpo(String corpo)
         {
-            this.body = corpo;
+            this.body = corpo.toCharArray();
         }
 
         @Override
@@ -64,6 +64,19 @@ public class Grammar
 
         availableNonterminals = new LinkedList<>(Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
                 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'));
+    }
+
+    Grammar(char[] alphabet, char[] nonterminals, char axiom, Production[] prod)
+    {
+        this();
+        addTerminal(alphabet);
+        addNonterminal(nonterminals);
+        setAxiom(axiom);
+
+        for(Production p : prod)
+        {
+            addProduction(p);
+        }
     }
 
     /**
@@ -132,6 +145,7 @@ public class Grammar
 
     public void addProduction(char head, String body)
     {
+
         if(!nonterminals.contains(head))
             return;
         for(char c : body.toCharArray())
@@ -140,8 +154,19 @@ public class Grammar
                 return;
         }//end for
 
+        for(Production p : prod)
+        {
+            if(p.head == head && Arrays.equals(p.body, body.toCharArray()))
+                return;
+        }
+
         Production newProd = new Production(head, body.toCharArray());
         this.prod.add(newProd);
+    }
+
+    public void addProduction(Production p)
+    {
+        addProduction(p.head, String.valueOf(p.body));
     }
 
     public void addProduction(char head, String[] bodies)
