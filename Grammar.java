@@ -272,12 +272,22 @@ public class Grammar
 
     */
 
-    /*
+
     public Grammar toChomskyForm()
     {
-        // for now, I assume that there are no prod whose body contains the axiom
-        //step 1: to do
 
+        //step 1: new axiom
+        char newAxiom;
+        if(availableNonterminals.isEmpty())
+            return this;
+        else
+        {
+            newAxiom = availableNonterminals.getLast();
+            addNonterminal(newAxiom);
+            addProduction(newAxiom, ((Character) axiom).toString());
+            axiom = newAxiom;
+        }
+        /*
         //step 2: delete e-prod
         for(Production p : prod)
         {
@@ -293,12 +303,14 @@ public class Grammar
                 }
             }
         }
-
+        */
         //step 3: delete unary prod
 
         //step 4: the remaining prod
+
+        return this;
     }
-    */
+
     /*
         CYK algorithm
     public boolean CYK(String str)
