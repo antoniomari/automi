@@ -329,7 +329,7 @@ public class Grammar
             throw new Exception("Grammar not in Chomsky Form. Inapplicable algorithm");
 
         int len = str.length();
-        LinkedList<Character>[][] matrixCYK = new LinkedList<Character>[len][len];
+        LinkedList<Character>[][] matrixCYK = new LinkedList[len][len];
 
         //populate first row
         for(int j = 0; j < str.length(); j++)
@@ -355,7 +355,9 @@ public class Grammar
                 for(int k = 1; k <= i; k++)
                 {
                     //nota: serve eliminare i duplicati
-                    temp.addAll(concatenateListCYK(matrixCYK[k-1][j], matrixCYK[i-k][j+k-1]));
+                    for(Character c : concatenateListCYK(matrixCYK[k-1][j], matrixCYK[i-k][j+k-1]))
+                        if(!temp.contains(c))
+                            temp.add(c);
                 }
                 matrixCYK[i][j] = temp;
             }
