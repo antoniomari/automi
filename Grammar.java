@@ -272,7 +272,7 @@ public class Grammar
 
     */
 
-
+    /*
     public Grammar toChomskyForm()
     {
 
@@ -303,13 +303,14 @@ public class Grammar
                 }
             }
         }
-        */
+
         //step 3: delete unary prod
 
         //step 4: the remaining prod
 
         return this;
     }
+    */
 
     /*
         CYK algorithm
