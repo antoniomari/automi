@@ -49,7 +49,7 @@ public class Grammar
         {
             LinkedList<Production> selected = new LinkedList<Production>();
             for(Production p : prods)
-                if(Arrays.equals(p.body, body.toCharArray()))
+                if(Arrays.equals(p.body, body.toCharArray())) //
                     selected.add(p);
 
             return selected;
@@ -335,7 +335,7 @@ public class Grammar
         for(int j = 0; j < str.length(); j++)
         {
             LinkedList<Character> temp = new LinkedList<Character>();
-            for(Production p : Production.select(prod, ((Character) str.charAt(0)).toString()))
+            for(Production p : Production.select(prod, ((Character) str.charAt(j)).toString()))
             {
                 char head = p.getHead();
                 if(!temp.contains(head))
@@ -343,6 +343,7 @@ public class Grammar
             }
 
             matrixCYK[0][j] = temp;
+            System.out.println("Elemento in [0][" + j + "]: " + temp);
         }
 
         //populate other rows
@@ -354,12 +355,13 @@ public class Grammar
                 //stringa di lunghezza i+1 che parte da j+1
                 for(int k = 1; k <= i; k++)
                 {
-                    //nota: serve eliminare i duplicati
-                    for(Character c : concatenateListCYK(matrixCYK[k-1][j], matrixCYK[i-k][j+k-1]))
+
+                    for(Character c : concatenateListCYK(matrixCYK[k-1][j], matrixCYK[i-k][j+k]))
                         if(!temp.contains(c))
                             temp.add(c);
                 }
                 matrixCYK[i][j] = temp;
+                System.out.println("Elemento in [" + i + "][" + j + "]: " + temp);
             }
         }
 
@@ -370,23 +372,31 @@ public class Grammar
 
     private LinkedList<Character> concatenateListCYK(LinkedList<Character> l1, LinkedList<Character> l2)
     {
-        LinkedList<Character[]> concList = new LinkedList<Character[]>();
+        LinkedList<char[]> concList = new LinkedList<char[]>();
         LinkedList<Character> resultList = new LinkedList<Character>();
 
         for(Character nt1 : l1)
         {
             for(Character nt2 : l2)
             {
-                concList.add(new Character[]{nt1, nt2});
+                char[] tempArr = {nt1, nt2};
+                concList.add(tempArr);
             }
         }
 
-        for(Character[] conc : concList)
+
+
+        //System.out.println(concList.size());
+        for(char[] conc : concList)
         {
-            LinkedList<Production> selected = Production.select(prod, conc.toString());
+
+            //System.out.println(Arrays.toString(conc));
+            LinkedList<Production> selected = Production.select(prod, String.valueOf(conc));
             for(Production p : selected)
             {
                 Character head = p.getHead();
+
+                //System.out.println(head + " : " + Arrays.toString(conc));
                 if(!resultList.contains(head))
                     resultList.add(head);
             }
