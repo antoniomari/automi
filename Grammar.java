@@ -19,7 +19,7 @@ public class Grammar
             this.body = body.toCharArray();
         }
 
-        public char getTesta()
+        public char getHead()
         {
             return head;
         }
@@ -43,6 +43,16 @@ public class Grammar
             LinkedList<Production> selected = new LinkedList<Production>();
             for(Production p : prods)
                 if(p.head == head)
+                    selected.add(p);
+
+            return selected;
+        }
+
+        public static LinkedList<Production> select(LinkedList<Production> prods, String body)
+        {
+            LinkedList<Production> selected = new LinkedList<Production>();
+            for(Production p : prods)
+                if(Arrays.equals(p.body, body.toCharArray()))
                     selected.add(p);
 
             return selected;
@@ -312,18 +322,35 @@ public class Grammar
     }
     */
 
-    /*
-        CYK algorithm
-    public boolean CYK(String str)
-    {
+
+
+    public boolean CYK(String str) throws Exception {
         if(!alphabetCheck(str))
             return false;
+
+        if(!isChomskyForm())
+            throw new Exception("Grammar not in Chomsky Form. Inapplicable algorithm");
 
         int len = str.length();
         Object[][] matrixCYK = new Object[len][len];
 
+        //populate first row
+        for(int i = 0; i < str.length(); i++)
+        {
+            LinkedList<Character> temp = new LinkedList<Character>();
+            for(Production p : Production.select(prod, ((Character) str.charAt(0)).toString()))
+            {
+                char head = p.getHead();
+                if(!temp.contains(head))
+                    temp.add(head);
+            }
+
+            matrixCYK[0][i] = temp;
+        }
+
+        return true; //placeholder
 
     }
 
-    */
+
 }
