@@ -1,6 +1,3 @@
-import com.sun.scenario.effect.impl.prism.PrDrawable;
-import sun.awt.image.ImageWatched;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -19,7 +16,7 @@ public class Grammar
             this.body = body.toCharArray();
         }
 
-        public char getTesta()
+        public char getHead()
         {
             return head;
         }
@@ -43,6 +40,16 @@ public class Grammar
             LinkedList<Production> selected = new LinkedList<Production>();
             for(Production p : prods)
                 if(p.head == head)
+                    selected.add(p);
+
+            return selected;
+        }
+
+        public static LinkedList<Production> select(LinkedList<Production> prods, String body)
+        {
+            LinkedList<Production> selected = new LinkedList<Production>();
+            for(Production p : prods)
+                if(Arrays.equals(p.body, body.toCharArray())) //
                     selected.add(p);
 
             return selected;
@@ -275,9 +282,19 @@ public class Grammar
     /*
     public Grammar toChomskyForm()
     {
-        // for now, I assume that there are no prod whose body contains the axiom
-        //step 1: to do
 
+        //step 1: new axiom
+        char newAxiom;
+        if(availableNonterminals.isEmpty())
+            return this;
+        else
+        {
+            newAxiom = availableNonterminals.getLast();
+            addNonterminal(newAxiom);
+            addProduction(newAxiom, ((Character) axiom).toString());
+            axiom = newAxiom;
+        }
+        /*
         //step 2: delete e-prod
         for(Production p : prod)
         {
@@ -297,20 +314,96 @@ public class Grammar
         //step 3: delete unary prod
 
         //step 4: the remaining prod
+
+        return this;
     }
     */
-    /*
-        CYK algorithm
-    public boolean CYK(String str)
-    {
+
+
+    public boolean CYK(String str, boolean comment) throws Exception {
         if(!alphabetCheck(str))
             return false;
 
+        if(!isChomskyForm())
+            throw new Exception("Grammar not in Chomsky Form. Inapplicable algorithm");
+
         int len = str.length();
-        Object[][] matrixCYK = new Object[len][len];
+        LinkedList<Character>[][] matrixCYK = new LinkedList[len][len];
+
+        //populate first row
+        for(int j = 0; j < str.length(); j++)
+        {
+            LinkedList<Character> temp = new LinkedList<Character>();
+            for(Production p : Production.select(prod, ((Character) str.charAt(j)).toString()))
+            {
+                char head = p.getHead();
+                if(!temp.contains(head))
+                    temp.add(head);
+            }
+
+            matrixCYK[0][j] = temp;
+
+            if(comment)
+                System.out.println("Element in [0][" + j + "]: " + temp);
+        }
+
+        //populate other rows
+        for(int i = 1; i < len; i++)
+        {
+            for(int j = 0; j < len - i; j++)
+            {
+                LinkedList<Character> temp = new LinkedList<Character>();
+
+                for(int k = 1; k <= i; k++)
+                {
+
+                    for(Character c : concatenateListCYK(matrixCYK[k-1][j], matrixCYK[i-k][j+k]))
+                        if(!temp.contains(c))
+                            temp.add(c);
+                }
+                matrixCYK[i][j] = temp;
+
+                if(comment)
+                    System.out.println("Element in [" + i + "][" + j + "]: " + temp);
+            }
+        }
+
+        LinkedList<Character> finalList = matrixCYK[len-1][0];
+
+        return finalList.contains(axiom);
+    }
+
+    private LinkedList<Character> concatenateListCYK(LinkedList<Character> l1, LinkedList<Character> l2)
+    {
+        LinkedList<char[]> concList = new LinkedList<char[]>();
+        LinkedList<Character> resultList = new LinkedList<Character>();
+
+        for(Character nt1 : l1)
+        {
+            for(Character nt2 : l2)
+            {
+                char[] tempArr = {nt1, nt2};
+                concList.add(tempArr);
+            }
+        }
+
+        for(char[] conc : concList)
+        {
+
+            LinkedList<Production> selected = Production.select(prod, String.valueOf(conc));
+            for(Production p : selected)
+            {
+                Character head = p.getHead();
+
+                if(!resultList.contains(head))
+                    resultList.add(head);
+            }
+        }
+
+        return resultList;
 
 
     }
 
-    */
+
 }
