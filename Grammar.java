@@ -1,6 +1,3 @@
-import com.sun.scenario.effect.impl.prism.PrDrawable;
-import sun.awt.image.ImageWatched;
-
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -332,10 +329,10 @@ public class Grammar
             throw new Exception("Grammar not in Chomsky Form. Inapplicable algorithm");
 
         int len = str.length();
-        Object[][] matrixCYK = new Object[len][len];
+        LinkedList<Character>[][] matrixCYK = new LinkedList<Character>[len][len];
 
         //populate first row
-        for(int i = 0; i < str.length(); i++)
+        for(int j = 0; j < str.length(); j++)
         {
             LinkedList<Character> temp = new LinkedList<Character>();
             for(Production p : Production.select(prod, ((Character) str.charAt(0)).toString()))
@@ -345,10 +342,56 @@ public class Grammar
                     temp.add(head);
             }
 
-            matrixCYK[0][i] = temp;
+            matrixCYK[0][j] = temp;
         }
 
-        return true; //placeholder
+        //populate other rows
+        for(int i = 1; i < len; i++)
+        {
+            for(int j = 0; j < len - i; j++)
+            {
+                LinkedList<Character> temp = new LinkedList<Character>();
+                //stringa di lunghezza i+1 che parte da j+1
+                for(int k = 1; k <= i; k++)
+                {
+                    //nota: serve eliminare i duplicati
+                    temp.addAll(concatenateListCYK(matrixCYK[k-1][j], matrixCYK[i-k][j+k-1]));
+                }
+                matrixCYK[i][j] = temp;
+            }
+        }
+
+        LinkedList<Character> finalList = matrixCYK[len-1][0];
+
+        return finalList.contains(axiom);
+    }
+
+    private LinkedList<Character> concatenateListCYK(LinkedList<Character> l1, LinkedList<Character> l2)
+    {
+        LinkedList<Character[]> concList = new LinkedList<Character[]>();
+        LinkedList<Character> resultList = new LinkedList<Character>();
+
+        for(Character nt1 : l1)
+        {
+            for(Character nt2 : l2)
+            {
+                concList.add(new Character[]{nt1, nt2});
+            }
+        }
+
+        for(Character[] conc : concList)
+        {
+            LinkedList<Production> selected = Production.select(prod, conc.toString());
+            for(Production p : selected)
+            {
+                Character head = p.getHead();
+                if(!resultList.contains(head))
+                    resultList.add(head);
+            }
+        }
+
+        return resultList;
+
 
     }
 
