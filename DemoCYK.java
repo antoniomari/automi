@@ -32,7 +32,7 @@ public class DemoCYK
 
         String testString = "baaba";
 
-        boolean resultCYK = gram2.CYK(testString);
+        boolean resultCYK = gram2.CYK(testString, true);
 
         System.out.println("Result: " + resultCYK);
     }

@@ -320,8 +320,7 @@ public class Grammar
     */
 
 
-
-    public boolean CYK(String str) throws Exception {
+    public boolean CYK(String str, boolean comment) throws Exception {
         if(!alphabetCheck(str))
             return false;
 
@@ -343,7 +342,9 @@ public class Grammar
             }
 
             matrixCYK[0][j] = temp;
-            System.out.println("Elemento in [0][" + j + "]: " + temp);
+
+            if(comment)
+                System.out.println("Element in [0][" + j + "]: " + temp);
         }
 
         //populate other rows
@@ -352,7 +353,7 @@ public class Grammar
             for(int j = 0; j < len - i; j++)
             {
                 LinkedList<Character> temp = new LinkedList<Character>();
-                //stringa di lunghezza i+1 che parte da j+1
+
                 for(int k = 1; k <= i; k++)
                 {
 
@@ -361,7 +362,9 @@ public class Grammar
                             temp.add(c);
                 }
                 matrixCYK[i][j] = temp;
-                System.out.println("Elemento in [" + i + "][" + j + "]: " + temp);
+
+                if(comment)
+                    System.out.println("Element in [" + i + "][" + j + "]: " + temp);
             }
         }
 
@@ -384,19 +387,14 @@ public class Grammar
             }
         }
 
-
-
-        //System.out.println(concList.size());
         for(char[] conc : concList)
         {
 
-            //System.out.println(Arrays.toString(conc));
             LinkedList<Production> selected = Production.select(prod, String.valueOf(conc));
             for(Production p : selected)
             {
                 Character head = p.getHead();
 
-                //System.out.println(head + " : " + Arrays.toString(conc));
                 if(!resultList.contains(head))
                     resultList.add(head);
             }
