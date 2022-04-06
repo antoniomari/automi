@@ -1,5 +1,8 @@
+import javax.sound.sampled.Line;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 
 public class Grammar
 {
@@ -35,9 +38,9 @@ public class Grammar
             this.body = body.toCharArray();
         }
 
-        public static LinkedList<Production> select(LinkedList<Production> prods, char head)
+        public static Collection<Production> select(Collection<Production> prods, char head)
         {
-            LinkedList<Production> selected = new LinkedList<Production>();
+            Collection<Production> selected = new LinkedList<Production>();
             for(Production p : prods)
                 if(p.head == head)
                     selected.add(p);
@@ -45,9 +48,9 @@ public class Grammar
             return selected;
         }
 
-        public static LinkedList<Production> select(LinkedList<Production> prods, String body)
+        public static Collection<Production> select(Collection<Production> prods, String body)
         {
-            LinkedList<Production> selected = new LinkedList<Production>();
+            Collection<Production> selected = new LinkedList<Production>();
             for(Production p : prods)
                 if(Arrays.equals(p.body, body.toCharArray())) //
                     selected.add(p);
@@ -70,12 +73,12 @@ public class Grammar
     }
 
     private char axiom;
-    private LinkedList<Character> alphabet;
-    private LinkedList<Character> nonterminals;
-    private LinkedList<Production> prod;
+    private Collection<Character> alphabet;
+    private Collection<Character> nonterminals;
+    private Collection<Production> prod;
 
-    private LinkedList<Character> availableTerminals;
-    private LinkedList<Character> availableNonterminals;
+    private Collection<Character> availableTerminals;
+    private Collection<Character> availableNonterminals;
 
     // CONSTRUCTOR
     Grammar()
@@ -218,7 +221,7 @@ public class Grammar
         this.axiom = axiom;
     }
 
-    public LinkedList<Production> getProductions()
+    public Collection<Production> getProductions()
     {
         return prod;
     }
@@ -373,10 +376,10 @@ public class Grammar
         return finalList.contains(axiom);
     }
 
-    private LinkedList<Character> concatenateListCYK(LinkedList<Character> l1, LinkedList<Character> l2)
+    private List<Character> concatenateListCYK(List<Character> l1, List<Character> l2)
     {
-        LinkedList<char[]> concList = new LinkedList<char[]>();
-        LinkedList<Character> resultList = new LinkedList<Character>();
+        List<char[]> concList = new LinkedList<char[]>();
+        List<Character> resultList = new LinkedList<Character>();
 
         for(Character nt1 : l1)
         {
@@ -390,7 +393,7 @@ public class Grammar
         for(char[] conc : concList)
         {
 
-            LinkedList<Production> selected = Production.select(prod, String.valueOf(conc));
+            Collection<Production> selected = Production.select(prod, String.valueOf(conc));
             for(Production p : selected)
             {
                 Character head = p.getHead();

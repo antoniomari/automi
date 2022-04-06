@@ -1,14 +1,15 @@
-import sun.awt.image.ImageWatched;
 
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.List;
+import java.util.Collection;
 
 public class Derivator
 {
     private Grammar gram;
     private StringBuilder strBuffer;
     private int numOfNt;
-    private LinkedList<Integer> ntIndexes;
+    private List<Integer> ntIndexes;
     private Random random;
 
     Derivator(Grammar gram)
@@ -44,7 +45,7 @@ public class Derivator
         char head = strBuffer.charAt(index);
 
         //choice random production to apply
-        LinkedList<Grammar.Production> availableProds = Grammar.Production.select(gram.getProductions(), head);
+        List<Grammar.Production> availableProds = (List) Grammar.Production.select(gram.getProductions(), head);
         Grammar.Production choice = availableProds.get(random.nextInt(availableProds.size()));
 
         //edit strBuffer
